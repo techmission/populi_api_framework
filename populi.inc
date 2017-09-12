@@ -106,6 +106,18 @@ class Populi{
       throw new PopuliException('Could not connect to Populi.', 'CONNECTION_ERROR');
     }
   }
+
+  // wrapper around the Populi getPossibleDuplicatePeople function to get an
+  // array of students, with their key information, but matching on the
+  // firstname and lastname
+  public function getPossibleDuplicatePeopleByName(string $first_name, string $last_name, string $gender = NULL, string $birth_date = NULL, string $email_address = NULL, string $phone_number = NULL) {
+  // Pass the parameters as array
+  // https://stackoverflow.com/questions/1419467
+  $params = get_defined_vars();  
+  // Request the result. Not raw, since needed as SimpleXML.
+  $result = $populi->doTask('getPossibleDuplicatePeople', $params, FALSE);
+  // TODO: write the code to walk the SimpleXML and convert to array,
+  // elmininating the duplicates where the people had different names.
 }
 
 class PopuliException extends Exception{

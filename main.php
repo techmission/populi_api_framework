@@ -58,7 +58,17 @@ function tag_students() {
     /*
     // 1) look up student id by first & last name
     // use method call to look up students by first name, lastname & get ids
-    // TODO: See if duplicate handling if needed
+    $fullname = $result['firstname'] . ' ' . $$result['lastname'];
+    $students = $populi->getPossibleDuplicatePeopleByName($first_name, $last_name]);
+    // For now, skip duplicates.
+    if(is_array($students) && count($students)> 1) {
+      script_log($fullname . ' had ' . $count . ' duplicates.', SCRIPT_ERROR);
+      continue;
+    }
+    // If there are no matches found, then log and continue.
+    if($students == FALSE) {
+      script_log($fullname . ' had no matches found.', SCRIPT_ERROR);
+    }
 
     // 2) update tags
     foreach($tags as $tag_name => $tag) {
