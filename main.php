@@ -49,17 +49,21 @@ function tag_students() {
     script_log($ex->getMessage(), LEVEL_ERROR);
   }
   
-  // Iterate over results
+  // Get the names of the tags
+  $tags = get_tags();
+
+  // Iterate over results to apply tags
   $count = 0;
   foreach($results as $result) {
     /*
     // 1) look up student id by first & last name
-    (method call to look up students by first name, lastname & get ids)
-    Duplicate handling?
+    // use method call to look up students by first name, lastname & get ids
+    // TODO: See if duplicate handling if needed
 
     // 2) update tags
-    foreach($tag_ids as $tag_id) {
-      // 2a) remove all tags of the requisite ids (since there’s no other way to keep in sync)
+    foreach($tags as $tag_name => $tag) {
+      // 2a) remove all tags of the requisite ids
+       (since there’s no other way to keep in sync)
       removeTag (whatever that is)
 
       //  2b) add the correct tags for the student
