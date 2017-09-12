@@ -1,3 +1,5 @@
+<?php
+
 /* Wrapper function to create the PDO database */
 function db_connect() {
   // Use the constants in the connection string.
