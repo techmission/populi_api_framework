@@ -3,7 +3,10 @@
 // Return the tags array (dummied for now)
 function get_tags() {
   return array(
-    'tagname' => 1,
+    'Pell 16-17' => 269497,
+    'Loan 16-17' => 269587,
+    '17-18 ISIR' => 272209,
+    'Completed VFAO Interview' => 272533,
   );
 }
 
