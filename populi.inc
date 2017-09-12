@@ -1,3 +1,4 @@
+<?php
 /* Populi API class - based on the example at 
    https://support.populiweb.com/hc/en-us/articles/223798767 */
 class Populi{
