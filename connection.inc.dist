@@ -1,0 +1,12 @@
+<?php
+
+// The basic database settings for the local database.
+// This database is used to pull the information on the students to tag.
+// The connection is done via the PHP PDO extension.
+
+define('DB_HOST', '');  // Typically localhost
+define('DB_NAME', '');
+define('DB_CHARSET', '');  // Typically latin1 or utf8,
+                                 // check information_schema
+define('DB_USERNAME', '');
+define('DB_PASSWORD', '');

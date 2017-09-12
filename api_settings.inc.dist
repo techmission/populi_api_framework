@@ -1,0 +1,4 @@
+define('API_SITE', '');  // Start of Populi URL
+define('API_USERNAME', '');  // Create an API user in Populi
+                             // with restricted permissions
+define('API_PASSWORD', '');  // Set the password before using that user
