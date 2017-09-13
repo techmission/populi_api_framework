@@ -22,3 +22,11 @@
   require_once $bath_path . 'lib/populi/populi_methods.inc';
   // Logging functions
   require_once $base_path . 'lib/logging/logging.inc';
+
+  /* Show PHP errors on screen if set to debug */
+  // See https://stackoverflow.com/questions/1053424
+  if(defined('SCRIPT_MODE') && SCRIPT_MODE == MODE_DEBUG) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+  }
