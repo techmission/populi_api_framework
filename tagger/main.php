@@ -6,7 +6,7 @@
 $base_path = dirname(__FILE__);
 
 // Core includes
-require_once $base_path . '../includes.inc';
+require_once $base_path . '/../includes.inc';
 
 // Settings specific to this script
 require_once $bath_path . 'settings.inc';

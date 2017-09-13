@@ -5,11 +5,11 @@
 $base_path = dirname(__FILE__);
 
 // Require core includes
-require_once $base_path . '../includes.inc';
+require_once $base_path . '/../includes.inc';
 
 // Require the settings and additional methods for the tagger script
-require_once $base_path . '/tagger/settings.php';
-require_once $base_path . '/tagger/tags.inc';
+require_once $base_path . '/../tagger/settings.php';
+require_once $base_path . '/../tagger/tags.inc';
 
 // Not using a real test framework for now, 
 // but see https://stackoverflow.com/questions/282150
