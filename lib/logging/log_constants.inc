@@ -10,4 +10,6 @@ define('LEVEL_ERROR', 1);
 
 // Current time (for logging)
 define('CURTIME', date('YmdHi'));
-define('LOGFILE', 'populi_tagger.log');
+
+// Log directory
+define('LOG_DIRECTORY', 'logs');

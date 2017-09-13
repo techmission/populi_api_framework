@@ -5,7 +5,14 @@
 /* Require includes */
 $base_path = dirname(__FILE__);
 
-require_once $base_path . 'includes.inc';
+// Core includes
+require_once $base_path . '../includes.inc';
+
+// Settings specific to this script
+require_once $bath_path . 'settings.inc';
+
+// Functions specific to tagging
+require_once $base_path . 'tags.inc';
 
 // Run the tagging
 tag_students();

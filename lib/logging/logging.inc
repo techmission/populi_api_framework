@@ -13,7 +13,8 @@ function script_log($message, $level = LEVEL_DEBUG) {
   // Log all messages in debug mode, or only errors if in default mode.
   if(SCRIPT_MODE == MODE_DEBUG || (SCRIPT_MODE == MODE_DEFAULT && $level == LEVEL_ERROR)) {
     $log_line = CURTIME . ': ' . $message . '[ ' . $level_name . ']' . PHP_EOL;
-    $result = file_put_contents(LOGFILE, $log_line, FILE_APPEND | LOCK_EX);
+    // FIXME: Generalize this to work with all scripts.
+    $result = file_put_contents(LOGFILE_TAGGER, $log_line, FILE_APPEND | LOCK_EX);
   }
   // Result is the number of bytes logged, or FALSE on failure.
   return $result;
