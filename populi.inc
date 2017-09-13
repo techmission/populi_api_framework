@@ -115,7 +115,12 @@ class Populi{
   // https://stackoverflow.com/questions/1419467
   $params = get_defined_vars();  
   // Request the result. Not raw, since needed as SimpleXML.
-  $result = $populi->doTask('getPossibleDuplicatePeople', $params, FALSE);
+  try {	  
+    $result = $populi->doTask('getPossibleDuplicatePeople', $params, FALSE);
+  }
+  catch(PopuliException $ex) {
+    script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
+  }
   // TODO: write the code to walk the SimpleXML and convert to array,
   // elmininating the duplicates where the people had different names.
 }
