@@ -58,7 +58,7 @@ class Populi extends PopuliCore {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }
     // Return TRUE or FALSE based on success
-    if((string) $response == 'SUCCESS') {
+    if((string) $response->result == 'SUCCESS') {
       return TRUE;
     }
     else {
@@ -80,7 +80,7 @@ class Populi extends PopuliCore {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }
     // Return TRUE or FALSE based on success
-    if((string) $response == 'SUCCESS') {
+    if((string) $response->result == 'SUCCESS') {
       return TRUE;
     }
     else {
