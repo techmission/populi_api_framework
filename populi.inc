@@ -120,9 +120,32 @@ class Populi{
   }
   catch(PopuliException $ex) {
     script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
+    // Return NULL if error on Populi side so calling code knows there was an API error, instead of no results.
+    return NULL;
   }
-  // TODO: write the code to walk the SimpleXML and convert to array,
-  // elmininating the duplicates where the people had different names.
+  // Define the array that will be returned if there are any matching students.
+  // The number of array members is the number of matches on first and last name.
+  $people = array();
+  /* Walk the SimpleXML and populate the array,
+     only adding where people's names match the passed in values. */
+  foreach($possible_duplicate as $person) {
+    // Include all variations of capitalization - cf. https://stackoverflow.com/questions/5473542
+    if((strcasecmp((string) $person->first_name, $first_name) == 0) &&
+       (strcasecmp((string) $person->last_name, $last_name) == 0)) {
+	    // Convert the address to array for ease of handling.
+	    $address = (array) $person->primary_address;
+      $people[] = array(
+        'id' => (int) $person->id,
+			  'first_name' => (string) $person->first_name,
+			  'last_name' => (string) $person->last_name,
+			  'preferred_name' => (string) $person->preferred_name,
+			  'birthdate' => (string) $person->birthdate,
+			  'primary_email' => (string) $person->primary_email,
+			  'primary_phone' => (string) $person->primary_phone,
+			  'primary_address' => $address
+		  );
+	  }
+  }    
 }
 
 class PopuliException extends Exception{
