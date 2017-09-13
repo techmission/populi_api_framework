@@ -5,28 +5,7 @@
 /* Require includes */
 $base_path = dirname(__FILE__);
 
-// database connection
-require_once $base_path . 'connection.inc';
-// Populi API settings
-require_once $base_path . 'api_settings.inc';
-// other constants (if any)
-require_once $base_path . 'constants.inc';
-
-/* Settings that can change */
-
-// Tag names
-require_once $base_path . 'tags.inc';
-// Other settings (such as debug mode)
-require_once $base_path . 'settings.inc';
-
-/* Require libraries */
-
-// PDO functions
-require_once $base_path . 'pdo.inc';
-// Populi functions
-require_once $base_path . 'populi.inc';
-// Logging functions
-require_once $base_path . 'logging.inc';
+require_once $base_path . 'includes.inc';
 
 // Run the tagging
 tag_students();
@@ -55,19 +34,30 @@ function tag_students() {
   // Iterate over results to apply tags
   $count = 0;
   foreach($results as $result) {
-    /*
     // 1) look up student id by first & last name
     // use method call to look up students by first name, lastname & get ids
     $fullname = $result['firstname'] . ' ' . $$result['lastname'];
+    // TODO: determine if capitalization will be an issue
     $students = $populi->getPossibleDuplicatePeopleByName($first_name, $last_name]);
-    // For now, skip duplicates.
-    if(is_array($students) && count($students)> 1) {
+    if(is_array($students) && count($students) == 1)) {
+      $student_id = $students[0]['id'];
+    }
+    // For now, skip duplicates and log.
+    else if(is_array($students) && count($students) > 1) {
       script_log($fullname . ' had ' . $count . ' duplicates.', LEVEL_ERROR);
       continue;
     }
     // If there are no matches found, then log and continue.
-    if($students == FALSE) {
+    else if(is_array($students) && count($students) = 0) {
       script_log($fullname . ' had no matches found.', LEVEL_ERROR);
+    }
+    // Method returns NULL if Populi has an error
+    else if($students == NULL) {
+      script_log('Populi error in getPossibleDuplicatePeople call', LEVEL_ERROR);
+    }
+    // This should never happen.
+    else {
+      script_log('unknown error in getPossibleDuplicatePeopleByName', LEVEL_ERROR);
     }
 
     // 2) update tags
@@ -79,7 +69,6 @@ function tag_students() {
       //  2b) add the correct tags for the student
      addTag(studentId, tagId) ?
     }
-    */
     // exit after 1 student processed
     if(SCRIPT_MODE == MODE_DEBUG && $count > 0) {
       break;
