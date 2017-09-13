@@ -23,7 +23,7 @@ class Populi extends PopuliCore {
     $people = array();
     /* Walk the SimpleXML and populate the array,
        only adding where people's names match the passed in values. */
-    foreach($possible_duplicate as $person) {
+    foreach($result->possible_duplicate as $person) {
       // Include all variations of capitalization - cf. https://stackoverflow.com/questions/5473542
       if((strcasecmp((string) $person->first_name, $first_name) == 0) &&
         (strcasecmp((string) $person->last_name, $last_name) == 0)) {
