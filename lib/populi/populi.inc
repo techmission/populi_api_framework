@@ -9,7 +9,7 @@ class PopuliCore {
   private $api_token = NULL;
   
   /* Function to login to Populi (must be called first unless access token is available */
-  public function login($user_name = NULL, $password = NULL) {
+  public function login($username = NULL, $password = NULL) {
     // Use the defaults from the settings file if not passed in
 	if($username == NULL || $password == NULL) {
 	  $username = API_USERNAME;
