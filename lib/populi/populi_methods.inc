@@ -39,18 +39,21 @@ class Populi extends PopuliCore {
 	  'primary_phone' => (string) $person->primary_phone,
 	  'primary_address' => $address
 	);
+      }
     }
+    return $people;
   }
-  
-  /* Wrapper around the removeTag API call */
-  public function removeTag(int $person_id, int $tag_id = NULL, string $tag = NULL) {
+
+  /* Wrapper around the addTag API call */
+  public function addTag(int $person_id, int $tag_id = NULL, string $tag = NULL) {
     $params = get_defined_vars();  
     // Return error if no tag_id or tag passed
     if($tag_id == NULL && $tag == NULL) {
        script_log('No tag_id or tag passed to add_tag', LEVEL_ERROR);
     }
     try {
-      $response = $populi->doTask('addTag', $params), FALSE);
+      $response = $populi->doTask('addTag', $params, FALSE);
+    }
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }
@@ -61,6 +64,7 @@ class Populi extends PopuliCore {
     else {
       return FALSE;
     }
+  }
 	    
   /* Wrapper around the removeTag API call */
   public function removeTag(int $person_id, int $tag_id = NULL, string $tag = NULL) {
@@ -70,7 +74,8 @@ class Populi extends PopuliCore {
        script_log('No tag_id or tag passed to remove_tag', LEVEL_ERROR);
     }
     try {
-      $response = $populi->doTask('removeTag', $params), FALSE);
+      $response = $populi->doTask('removeTag', $params, FALSE);
+    }
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }

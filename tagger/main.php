@@ -45,8 +45,8 @@ function tag_students() {
     // 1) look up student id by first & last name
     // use method call to look up students by first name, lastname & get ids
     $fullname = $result['firstname'] . ' ' . $$result['lastname'];
-    $students = $populi->getPossibleDuplicatePeopleByName($first_name, $last_name]);
-    if(is_array($students) && count($students) == 1)) {
+    $students = $populi->getPossibleDuplicatePeopleByName($result['first_name'], $result['last_name']);
+    if(is_array($students) && count($students) == 1) {
       $student_id = $students[0]['id'];
     }
     // For now, skip duplicates and log.
@@ -55,7 +55,7 @@ function tag_students() {
       continue;
     }
     // If there are no matches found, then log and continue.
-    else if(is_array($students) && count($students) = 0) {
+    else if(is_array($students) && count($students) == 0) {
       script_log($fullname . ' had no matches found.', LEVEL_ERROR);
     }
     // Method returns NULL if Populi has an error
@@ -114,7 +114,7 @@ function tag_students() {
 
 function get_tags_to_add($student) {
   // If bad data is passed, then skip.
-  if(!is_array($student) || (!isset($student['firstname']) || !isset($student['lastname'])) || (empty($student('firstname']) || empty($student['lastname'])) {
+  if(!is_array($student) || (!isset($student['firstname']) || !isset($student['lastname'])) || (empty($student['firstname']) || empty($student['lastname']))) {
     script_log('bad data call to get_tags_to_add' . PHP_EOL . print_r($student, TRUE), LEVEL_ERROR);
     return array();
   }
