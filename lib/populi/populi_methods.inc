@@ -11,7 +11,7 @@ class Populi extends PopuliCore {
     $params = get_defined_vars();  
     // Request the result. Not raw, since needed as SimpleXML.
     try {	  
-      $result = $populi->doTask('getPossibleDuplicatePeople', $params, FALSE);
+      $result = $this->doTask('getPossibleDuplicatePeople', $params, FALSE);
     }
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
@@ -52,7 +52,7 @@ class Populi extends PopuliCore {
        script_log('No tag_id or tag passed to add_tag', LEVEL_ERROR);
     }
     try {
-      $response = $populi->doTask('addTag', $params, FALSE);
+      $response = $this->doTask('addTag', $params, FALSE);
     }
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
@@ -74,7 +74,7 @@ class Populi extends PopuliCore {
        script_log('No tag_id or tag passed to remove_tag', LEVEL_ERROR);
     }
     try {
-      $response = $populi->doTask('removeTag', $params, FALSE);
+      $response = $this->doTask('removeTag', $params, FALSE);
     }
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
