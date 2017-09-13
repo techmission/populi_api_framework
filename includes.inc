@@ -19,7 +19,7 @@
   require_once $base_path . '/lib/pdo/pdo.inc';
   // Populi functions
   require_once $base_path . '/lib/populi/populi.inc';
-  require_once $bath_path . '/lib/populi/populi_methods.inc';
+  require_once $base_path . '/lib/populi/populi_methods.inc';
   // Logging functions
   require_once $base_path . '/lib/logging/logging.inc';
 

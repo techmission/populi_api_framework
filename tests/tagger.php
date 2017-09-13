@@ -8,7 +8,7 @@ $base_path = dirname(__FILE__);
 require_once $base_path . '/../includes.inc';
 
 // Require the settings and additional methods for the tagger script
-require_once $base_path . '/../tagger/settings.php';
+require_once $base_path . '/../tagger/settings.inc';
 require_once $base_path . '/../tagger/tags.inc';
 
 // Not using a real test framework for now, 
