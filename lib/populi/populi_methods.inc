@@ -5,7 +5,7 @@ class Populi extends PopuliCore {
   /* wrapper around the getPossibleDuplicatePeople call to get an
      array of students, with their key information, but matching on the
      firstname and lastname */
-  public function getPossibleDuplicatePeopleByName(string $first_name, string $last_name, string $gender = NULL, string $birth_date = NULL, string $email_address = NULL, string $phone_number = NULL) {
+  public function getPossibleDuplicatePeopleByName($first_name, $last_name, $gender = NULL, $birth_date = NULL, $email_address = NULL, $phone_number = NULL) {
     // Pass the parameters as array
     // https://stackoverflow.com/questions/1419467
     $params = get_defined_vars();  
@@ -45,7 +45,7 @@ class Populi extends PopuliCore {
   }
 
   /* Wrapper around the addTag API call */
-  public function addTag(int $person_id, int $tag_id = NULL, string $tag = NULL) {
+  public function addTag($person_id, $tag_id = NULL, $tag = NULL) {
     $params = get_defined_vars();  
     // Return error if no tag_id or tag passed
     if($tag_id == NULL && $tag == NULL) {
@@ -67,7 +67,7 @@ class Populi extends PopuliCore {
   }
 	    
   /* Wrapper around the removeTag API call */
-  public function removeTag(int $person_id, int $tag_id = NULL, string $tag = NULL) {
+  public function removeTag($person_id, $tag_id = NULL, $tag = NULL) {
     $params = get_defined_vars();  
     // Return error if no tag_id or tag passed
     if($tag_id == NULL && $tag == NULL) {
