@@ -30,11 +30,11 @@ echo PHP_EOL;
 
 // Set results of get_tag_by_name
 echo 'Get tag id by name: ' . PHP_EOL;
-$tag_id = get_tag_id_by_name('Pell 16-17'));
+$tag_id = get_tag_id_by_name('Pell 16-17');
 var_dump($tag_id);
 echo PHP_EOL;
 
-* Populi methods */
+/* Populi methods */
 // this is confirmed in base case
 echo 'possibleDuplicatePeopleByName' . PHP_EOL;
 $students = $populi->getPossibleDuplicatePeopleByName('Evan', 'Donovan');
