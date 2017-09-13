@@ -50,4 +50,6 @@ echo PHP_EOL;
 $result = $populi->addTag($student_id, $tag_id);
 var_dump($result);
 
-// Do removeTag after I check on Populi itself
+// removeTag
+$result = $populi->removeTag($student_id, $tag_id);
+var_dump($result);
