@@ -12,4 +12,4 @@ define('LEVEL_ERROR', 1);
 define('CURTIME', date('YmdHi'));
 
 // Log directory
-define('LOG_DIRECTORY', 'logs');
+define('LOG_DIRECTORY', '/var/log');
