@@ -69,13 +69,12 @@ function tag_students() {
       script_log('unknown error in getPossibleDuplicatePeopleByName', LEVEL_ERROR);
     }
     /* 2) update tags for the student */
-    $response = TRUE; // for testing only
     // 2a) remove all tags of the requisite ids
     // (since there's no other way to keep them in sync)
     foreach($tags as $tag_name => $tag_id) {
       /* 2a) remove all tags of the requisite ids
        (since there’s no other way to keep in sync) */
-      // $response = $populi->removeTag($student_id, $tag_id);
+      $response = $populi->removeTag($student_id, $tag_id);
       // Debugging
       if($response == TRUE) {
        script_log('removed tag ' . $tag_name . ' from student ' . $fullname, LEVEL_DEBUG);
@@ -92,18 +91,18 @@ function tag_students() {
     // 2b) add the correct tags for the student
     if(is_array($tags_to_add) && count($tags_to_add) > 0) {
       foreach($tags_to_add as $tag_id) {
-        // $response = $populi->addTag($student_id, $tag_id);
+        $response = $populi->addTag($student_id, $tag_id);
         if($response == TRUE) {
-         script_log('added tag ' . $tag_name . ' to student ' . $fullname, LEVEL_DEBUG);
+         script_log('added tag ' . $tag_id . ' to student ' . $fullname, LEVEL_DEBUG);
         }
         else {
-          script_log('failed to add ' . $tag_name . ' to student ' . $fullname, LEVEL_ERROR);
+          script_log('failed to add ' . $tag_id . ' to student ' . $fullname, LEVEL_ERROR);
         }
         $tags_added++;
       }
     }
-    // exit after 1 student processed
-    if(SCRIPT_MODE == MODE_DEBUG && $count > 0) {
+    // exit after 3 students processed
+    if(SCRIPT_MODE == MODE_DEBUG && $count > 3) {
       break;
     }
     $count++;
