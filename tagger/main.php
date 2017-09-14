@@ -101,10 +101,11 @@ function tag_students() {
         $tags_added++;
       }
     }
-    // exit after 3 students processed
-    if(SCRIPT_MODE == MODE_DEBUG && $count > 3) {
+    // exit after $test_num students processed - testing only
+    $test_num = 3;
+    /* if(SCRIPT_MODE == MODE_DEBUG && $count > $test_num) {
       break;
-    }
+    } */
     $count++;
   }
   $students_processed = $count . " students processed." . PHP_EOL;
@@ -124,7 +125,7 @@ function get_tags_to_add($student) {
   }
   $tags = array();
   if($student['completed_vfao'] == 1) {
-    $tag_id = get_tag_id_by_name('Completed VFAO Interview');
+    $tag_id = get_tag_id_by_name('Completed VFAO');
     if(is_numeric($tag_id)) {
       $tags[] = $tag_id;
     }

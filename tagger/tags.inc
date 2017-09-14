@@ -6,8 +6,8 @@ function get_tags() {
   return array(
     'Pell 16-17' => 269497,
     'Loan 16-17' => 269587,
-    '17-18 ISIR' => 272209,
-    'Completed VFAO Interview' => 272533,
+    '17-18 ISIR' => 272773,
+    'Completed VFAO' => 272533,
   );
 }
 
