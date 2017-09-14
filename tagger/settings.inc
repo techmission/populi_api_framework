@@ -6,7 +6,7 @@ define('SCRIPT_MODE', MODE_DEBUG);
 
 // Full path to log file
 // Revise later to be just the filename (once generalized logger working)
-define('LOGFILE_TAGGER', '/../logs/populi_tagger.log');
+define('LOGFILE_TAGGER', '/var/log/populi_tagger.log');
 
   /* Show PHP errors on screen if set to debug */
   // See https://stackoverflow.com/questions/1053424

@@ -9,10 +9,10 @@ $base_path = dirname(__FILE__);
 require_once $base_path . '/../includes.inc';
 
 // Settings specific to this script
-require_once $bath_path . 'settings.inc';
+require_once $base_path . '/tagger/settings.inc';
 
 // Functions specific to tagging
-require_once $base_path . 'tags.inc';
+require_once $base_path . '/tagger/tags.inc';
 
 // Run the tagging
 tag_students();
@@ -44,10 +44,11 @@ function tag_students() {
   foreach($results as $result) {
     // 1) look up student id by first & last name
     // use method call to look up students by first name, lastname & get ids
-    $fullname = $result['firstname'] . ' ' . $$result['lastname'];
-    $students = $populi->getPossibleDuplicatePeopleByName($result['first_name'], $result['last_name']);
+    $fullname = $result['firstname'] . ' ' . $result['lastname'];
+    $students = $populi->getPossibleDuplicatePeopleByName($result['firstname'], $result['lastname']);
     if(is_array($students) && count($students) == 1) {
       $student_id = $students[0]['id'];
+      script_log(print_r($students[0], TRUE), LEVEL_DEBUG);
     }
     // For now, skip duplicates and log.
     else if(is_array($students) && count($students) > 1) {
@@ -66,15 +67,14 @@ function tag_students() {
     else {
       script_log('unknown error in getPossibleDuplicatePeopleByName', LEVEL_ERROR);
     }
-
     /* 2) update tags for the student */
-
+    $response = TRUE; // for testing only
     // 2a) remove all tags of the requisite ids
     // (since there's no other way to keep them in sync)
     foreach($tags as $tag_name => $tag_id) {
       /* 2a) remove all tags of the requisite ids
        (since there’s no other way to keep in sync) */
-      $response = $populi->removeTag($student_id, $tag_id);
+      // $response = $populi->removeTag($student_id, $tag_id);
       // Debugging
       if($response == TRUE) {
        script_log('added tag ' . $tag_name . ' to student ' . $fullname, LEVEL_DEBUG);
@@ -90,7 +90,7 @@ function tag_students() {
 
     // 2b) add the correct tags for the student
     foreach($tags_to_add as $tag_id) {
-      $response = $populi->addTag($student_id, $tag_id);
+      // $response = $populi->addTag($student_id, $tag_id);
       if($response == TRUE) {
        script_log('added tag ' . $tag_name . ' to student ' . $fullname, LEVEL_DEBUG);
       }
