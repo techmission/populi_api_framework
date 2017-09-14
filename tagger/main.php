@@ -40,7 +40,8 @@ function tag_students() {
 
   // Iterate over results to apply tags
   $count = 0;  // Number of students processed
-  $tag_count = 0; // Number of tags applied
+  $tags_added = 0; // Number of tags added
+  $tags_removed = 0; // Number of tags removed
   foreach($results as $result) {
     // 1) look up student id by first & last name
     // use method call to look up students by first name, lastname & get ids
@@ -77,11 +78,11 @@ function tag_students() {
       // $response = $populi->removeTag($student_id, $tag_id);
       // Debugging
       if($response == TRUE) {
-       script_log('added tag ' . $tag_name . ' to student ' . $fullname, LEVEL_DEBUG);
-       $tag_count++;
+       script_log('removed tag ' . $tag_name . ' from student ' . $fullname, LEVEL_DEBUG);
+       $tags_removed++;
       }
       else {
-        script_log('failed to add ' . $tag_name . ' to student ' . $fullname, LEVEL_ERROR);
+        script_log('failed to remove ' . $tag_name . ' from student ' . $fullname, LEVEL_ERROR);
       } 
     }
 
@@ -89,13 +90,16 @@ function tag_students() {
     $tags_to_add = get_tags_to_add($result);
 
     // 2b) add the correct tags for the student
-    foreach($tags_to_add as $tag_id) {
-      // $response = $populi->addTag($student_id, $tag_id);
-      if($response == TRUE) {
-       script_log('added tag ' . $tag_name . ' to student ' . $fullname, LEVEL_DEBUG);
-      }
-      else {
-        script_log('failed to add ' . $tag_name . ' to student ' . $fullname, LEVEL_ERROR);
+    if(is_array($tags_to_add) && count($tags_to_add) > 0) {
+      foreach($tags_to_add as $tag_id) {
+        // $response = $populi->addTag($student_id, $tag_id);
+        if($response == TRUE) {
+         script_log('added tag ' . $tag_name . ' to student ' . $fullname, LEVEL_DEBUG);
+        }
+        else {
+          script_log('failed to add ' . $tag_name . ' to student ' . $fullname, LEVEL_ERROR);
+        }
+        $tags_added++;
       }
     }
     // exit after 1 student processed
@@ -105,8 +109,9 @@ function tag_students() {
     $count++;
   }
   $students_processed = $count . " students processed." . PHP_EOL;
-  $tags_applied = $tag_count . " tags applied." . PHP_EOL;
-  $tagging_result = $students_processed . $tags_applied;
+  $tags_removed_result = $tags_removed . " tags removed." . PHP_EOL;
+  $tags_added_result = $tags_added . " tags added." . PHP_EOL;
+  $tagging_result = $students_processed . $tags_added_result . $tags_removed_result;
   echo $tagging_result;
   script_log($tagging_result, LEVEL_DEBUG);
   return $count;
@@ -120,16 +125,28 @@ function get_tags_to_add($student) {
   }
   $tags = array();
   if($student['completed_vfao'] == 1) {
-    $tags[] = get_tag_id_by_name('Completed VFAO Interview');
+    $tag_id = get_tag_id_by_name('Completed VFAO Interview');
+    if(is_numeric($tag_id)) {
+      $tags[] = $tag_id;
+    }
   }
   if($student['pell_1617'] == 1) {
-    $tags[] = get_tag_id_by_name('Pell 16-17');
+    $tag_id = get_tag_id_by_name('Pell 16-17');
+    if(is_numeric($tag_id)) {
+      $tags[] = $tag_id;
+    }
   }
   if($student['loans_1617'] == 1) {
-    $tags[] = get_tag_id_by_name('Loans 16-17');
+    $tag_id = get_tag_id_by_name('Loan 16-17');
+    if(is_numeric($tag_id)) {
+      $tags[] = $tag_id;
+    }
   }
   if($student['has_isir'] == 1) {
-    $tags[] = get_tag_id_by_name('17-18 ISIR');
+    $tag_id = get_tag_id_by_name('17-18 ISIR');
+    if(is_numeric($tag_id)) {
+      $tags[] = $tag_id;
+    }
   }
   return $tags;
 }
