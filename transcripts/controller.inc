@@ -19,6 +19,12 @@ function transcript_bootstrap() {
   require_once('term_dates.inc');       // defines dates of terms
   require_once('queries.inc');          // wrapper functions for querying
   require_once('process.inc');          // processes the transcript data
+
+  // Connect to Populi
+  global $POPULI;
+  $POPULI = new Populi();
+  // Use default login credentials
+  $POPULI->login();
 }
 
 /* Function to build the transcript page */
@@ -27,19 +33,19 @@ function build_transcript_data() {
   $student_id = '';
   $output = '';
   if(!empty($_GET['FirstName'] && $_GET['LastName'])) {
-    $contact_id = get_student_id(QUERY_STUDENTNAME, array('FirstName' => $_GET['FirstName'], 'LastName' => $_GET['LastName']));
+    $student_id = get_student_id(QUERY_STUDENTNAME, array('FirstName' => $_GET['FirstName'], 'LastName' => $_GET['LastName']));
    if(!is_populi_id($student_id)) {
-     build_error_page(ERROR_CONTACT_NOT_FOUND, array('FirstName' => $_GET['FirstName'], 'LastName' => $_GET['LastName'], 'contact_sfid' => $contact_id));
+     build_error_page(ERROR_CONTACT_NOT_FOUND, array('FirstName' => $_GET['FirstName'], 'LastName' => $_GET['LastName'], 'student_id' => $student_id));
    }
   }
   else if(!empty($_GET['Email'])) {
-    $contact_id = get_student_id(QUERY_EMAIL, array('Email' => $_GET['Email']));
+    $student_id = get_student_id(QUERY_EMAIL, array('Email' => $_GET['Email']));
     if(!is_populi_id($student_id)) {
-      build_error_page(ERROR_CONTACT_NOT_FOUND, array('Email' => $_GET['Email'], 'contact_sfid' => $contact_sfid));
+      build_error_page(ERROR_CONTACT_NOT_FOUND, array('Email' => $_GET['Email'], 'student_id' => $student_id));
     }
   }  
   else if(!empty($_GET['Student_Id']) && is_sfid($_GET['Student_Id'])) {
-    $contact_id = $_GET['Id'];
+    $student_id = $_GET['Id'];
   }
   else {
     build_error_page(ERROR_INVALID_INPUT, array('_GET' => $_GET));
@@ -61,5 +67,6 @@ function build_error_page($error_msg, $vars) {
   $vars_dump = print_r($vars, TRUE);
   echo $template->render(array('error_msg' => $error_msg, 'vars' => $vars, 'vars_dump' => $vars_dump, 'log_mode' => LOG_MODE));
   // TODO: add the logging from the Populi framework here
+  // needs to be adjusted to be configurable in which log file it uses
   exit(-1);
 }

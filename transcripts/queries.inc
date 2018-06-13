@@ -28,19 +28,23 @@ function get_transcript_data($student_id) {
 /* Step 0: Looks up a Populi student record based on either email 
    or first name + last name */
 function get_student_id($query_type, $fields) {
+  // Use our existing Populi connection
+  global $POPULI;
+  $student_id = '';
+
   if($query_type == QUERY_STUDENTNAME) {
-    // TODO: wrap the method I wrote that returns Id's by student name
+    // wraps the Populi method that returns Id's by student name
+    $students = $POPULI->getPossibleDuplicatePeopleByName($fields['FirstName'], $fields['LastName']);
+    // always return the first one (for now)
+    if(is_array($students) && count($students >= 1) {
+      $student_id = $students[0]['Id'];
+    }
   }
   else if($query_type == QUERY_EMAIL) {
     // TODO: wrap a method that returns Id's by email
+    // need to write that in framework
   }
-  // TODO: rewrite how results are returned
-  if(isset($results[0]->Id) && !empty($results[0]->Id)) {
-   return $results[0]->Id;
-  }
-  else {
-    return '';
-  }
+  return $student_id;
 }
 
 /* Step 1: Get the basic information on the student */
