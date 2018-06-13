@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>9a - {{t.studentinfo.lastname|capitalize }}, {{t.studentinfo.firstname|capitalize}} Transcript &amp; SAP History</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>{{ t.studentinfo.firstname|capitalize }} {{t.studentinfo.lastname|capitalize }} Transcript &amp; SAP History</h1>
+<p><strong>Program:</strong> {{t.studentinfo.program }}<br/>
+<strong>Major:</strong> {{t.studentinfo.major }}</p>
+
+<h2>Transfer Credit Accepted</h2>
+{% if t.overall.transfer_credit > 0 %}
+{% if t.transcripts is not empty %}
+<table class="transcripts">
+<tr><th>Institution</th><th>Credits</th><th>GPA</th></tr>
+  {% for transcript in t.transcripts %}
+    {% if transcript.transfer_credit > 0 %}
+      <tr>
+      <td>{{ transcript.name }}</td>
+      <td>{{ transcript.transfer_credit }}</td>
+      {% if transcript.name == 'Prior Learning Assessment' %}
+      <td>Pass / Fail</td>
+      <td>* Prior Learning Assessment credits are accepted Pass/Fail, so are not included in the GPA calculation.</td>
+      {% else %}
+      <td>{{ transcript.transfer_gpa }}</td>
+      {% endif %}
+      </tr>
+    {% endif %}
+  {% endfor %}
+  <tr><td><strong>Totals:</strong></td>
+  <td>{{ t.overall.transfer_credit }}</td>
+  <td>{{ t.overall.transfer_gpa }}</td>
+</table>
+{% else %}
+<table>
+<tr><td><strong>Totals:</strong><td>
+<td>{{ t.overall.transfer_credit }}</td>
+<td>{{ t.overall.transfer_gpa }}</td>
+</table>
+{% endif %}
+{% else %}
+  <p><em>None</em></p>  
+{% endif %}
+
+{% if t.terms is not empty %}
+<h2>Courses</h2>
+{% for term in t.terms %}
+<h3>{{ term.name }}
+{% if term.term_dates is defined and term.term_dates is not empty %}
+({{ term.term_dates }})
+{% endif %}
+{% if term.name is constant('CURRENT_PAYMENT_PERIOD') %}
+ (payment period)
+{% endif %}
+</h3>
+{% if term.courses is not empty %}
+<table class="courses">
+<tr><th class="course-name">&nbsp;</th><th>Grade</th><th>Points</th>
+<th>Credits Attempted</th><th>Credits Earned</th>
+{% if constant('LOG_MODE') is constant('LOG_SOME') %}
+<th>Credits Override</th>
+{% endif %}
+<th>Exclude from Final GPA?</th>
+{% if constant('LOG_MODE') is constant('LOG_SOME') %}
+<th>QP Calculation</th>
+{% endif %}
+</tr>
+{% for course in term.courses %}
+<tr>
+<td class="course-name">{{ course.name }}</td>
+<td>{{ course.grade }}</td>
+<td>{{ course.course_gpa}}</td>
+<td>{{ course.credits}}</td>
+<td>{{ course.credits_earned }}</td>
+{% if constant('LOG_MODE') is constant ('LOG_SOME') %}
+<td>{{ course.credits_override }}</td>
+{% endif %}
+<td>
+{% if course.exclude == TRUE and course.grade != 'W' %}
+Excluded from GPA
+{% endif %}
+{% if course.is_repeat == TRUE %}
+Repeated, Included in GPA
+{% endif %}
+</td>
+{% if constant('LOG_MODE') is constant('LOG_SOME') %}
+<td>{{ course.quality_points }}</td>
+{% endif %}
+</tr>
+{% endfor %}
+</table>
+<br/><br/>
+{% endif %}
+<table class="term-data">
+<tr><td>City Vision Credits Attempted to Date:</td><td>{{ term.cvu_credit_attempted }}</td></tr>
+<tr><td>City Vision Credits Completed to Date:</td><td>{{ term.cvu_credit_earned }}</td></tr>
+<tr><td>Total Credits Attempted to Date:</td><td>{{ term.total_credit_attempted }}</td></tr>
+<tr><td>Total Credits Completed to Date:</td><td>{{ term.total_credit_earned }}</td></tr>
+<tr><td>City Vision GPA to Date:</td><td>{{ term.cvu_gpa|round(2) }}</td></tr>
+<tr><td>Total GPA to Date:</td><td>{{ term.total_gpa|round(2) }}</td></tr>
+<tr><td>SAP Status at End of Term:</td><td>{{ term.sap_status }}</td></tr>
+</table>
+{% endfor %}
+<!-- todo: add logic for "not in current payment period" - define constant -->
+{% endif %}
+
+<h2>Totals:</h2>
+<table class="total-data">
+<tr><td>City Vision Credits Attempted:</td><td>{{ t.overall.cvu_credit_attempted }}</td></tr>
+<tr><td>City Vision Credits Completed:</td><td>{{ t.overall.cvu_credit_earned }}</td></tr>
+<tr><td>Total Credits Attempted:</td><td>{{ t.overall.total_credit_attempted }}</td></tr>
+<tr><td>Total Credits Completed:</td><td>{{ t.overall.total_credit_earned }}</td></tr>
+<tr><td>Cumulative City Vision GPA:</td><td>{{ t.overall.cvu_gpa|round(2) }}</td></tr>
+<tr><td>Cumulative Total GPA:</td><td>{{ t.overall.total_gpa|round(2) }}</td></tr>
+<tr><td>Current SAP Status:</td><td>{{ t.overall.sap_status }}</td></tr>
+</table>
+
+{% if constant('LOG_MODE') is constant('LOG_ALL') %}
+<h2>Debugging Vars</h2>
+<pre>
+{{ vars }}
+</pre>
+{% endif %}
+</body>
+</html>

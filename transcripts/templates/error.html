@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+<title>Error</title>
+<link rel="stylesheet" type="css/style.css">
+</head>
+<body>
+<p>{{ error_msg }}</p>
+{% if log_mode == 0 or log_mode == 1 %}
+<pre>{{ vars_dump }}</pre>
+{% endif %}
+</body>
+</html>
