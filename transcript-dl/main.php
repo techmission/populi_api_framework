@@ -18,8 +18,12 @@ define('GET_PDF_TRANSCRIPT', TRUE);
 
 /* Download transcript from $_GET parameters */
 if (isset($_GET['person_id']) && is_numeric($_GET['person_id']) && isset($_GET['key']) && $_GET['key'] = KEY_VALUE){
-	// call the wrapper function around Populi's get transcript function
-	$result = get_transcript($_GET['person_id'], GET_PDF_TRANSCRIPT);
+    // Establish Populi API connection
+    $populi = new Populi();
+    // Use default login credentials
+    $populi->login();
+    // call the wrapper function around Populi's get transcript function
+	$result = $populi->get_transcript($_GET['person_id'], GET_PDF_TRANSCRIPT);
 }
 // Log an error if missing parameters
 else {
