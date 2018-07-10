@@ -88,14 +88,20 @@ class Populi extends PopuliCore {
     }
   }
   
-  public function get_transcript($person_id, $use_pdf = TRUE) {
+  public function get_transcript($person_id, $pdf = TRUE) {
     $params = get_defined_vars();
 	// Return error if no person id passed
 	if($person_id == NULL || !is_numeric($person_id)) {
 	  script_log('No valid person_id passed to get_transcript', LEVEL_ERROR);
 	}
 	try {
-      $response = $this->doTask('getTranscript', $params, FALSE);
+	  if($pdf == TRUE) {
+		$return_raw = TRUE;
+	  }
+	  else {
+		$return_raw = FALSE;
+	  }
+      $response = $this->doTask('getTranscript', $params, $return_raw);
     }
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
