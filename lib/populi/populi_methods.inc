@@ -1,6 +1,6 @@
 <?php
 
-/* Extension class with wrapper methods for Populi functions. */
+// Extension class with wrapper methods for Populi functions. */
 class Populi extends PopuliCore {
   /* wrapper around the getPossibleDuplicatePeople call to get an
      array of students, with their key information, but matching on the
@@ -86,5 +86,26 @@ class Populi extends PopuliCore {
     else {
       return FALSE;
     }
+  }
+  
+  public function get_transcript($person_id, $use_pdf = TRUE) {
+    $params = get_defined_vars();
+	// Return error if no person id passed
+	if($person_id == NULL || !is_numeric($person_id)) {
+	  script_log('No valid person_id passed to get_transcript', LEVEL_ERROR}
+	}
+	try {
+      $response = $this->doTask('getTranscript', $params, FALSE);
+    }
+    catch(PopuliException $ex) {
+      script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
+    }
+    // Return TRUE or FALSE based on success
+    if((string) $response->result == 'SUCCESS') {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+	}
   }
  }
