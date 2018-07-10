@@ -88,7 +88,7 @@ class Populi extends PopuliCore {
     }
   }
   
-  public function get_transcript($person_id, $pdf = TRUE) {
+  public function get_transcript($person_id, $pdf = TRUE, $official = TRUE) {
     $params = get_defined_vars();
 	// Return error if no person id passed
 	if($person_id == NULL || !is_numeric($person_id)) {
