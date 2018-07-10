@@ -100,12 +100,7 @@ class Populi extends PopuliCore {
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }
-    // Return TRUE or FALSE based on success
-    if((string) $response->result == 'SUCCESS') {
-      return TRUE;
-    }
-    else {
-      return FALSE;
-	}
+	// Response will be XML if use_pdf is FALSE, otherwise binary PDF data with mime type set at top
+    return $response;
   }
  }

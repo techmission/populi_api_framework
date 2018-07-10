@@ -24,6 +24,8 @@ if (isset($_GET['person_id']) && is_numeric($_GET['person_id']) && isset($_GET['
     $populi->login();
     // call the wrapper function around Populi's get transcript function
 	$result = $populi->get_transcript($_GET['person_id'], GET_PDF_TRANSCRIPT);
+	// Return the PDF
+	print($result);
 }
 // Log an error if missing parameters
 else {
