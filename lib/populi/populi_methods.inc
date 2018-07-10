@@ -107,6 +107,7 @@ class Populi extends PopuliCore {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }
 	// Response will be XML if use_pdf is FALSE, otherwise binary PDF data with mime type set at top
+	// Must set the headers in PHP to render PDF properly
     return $response;
   }
  }
