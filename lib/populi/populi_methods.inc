@@ -92,7 +92,7 @@ class Populi extends PopuliCore {
     $params = get_defined_vars();
 	// Return error if no person id passed
 	if($person_id == NULL || !is_numeric($person_id)) {
-	  script_log('No valid person_id passed to get_transcript', LEVEL_ERROR}
+	  script_log('No valid person_id passed to get_transcript', LEVEL_ERROR);
 	}
 	try {
       $response = $this->doTask('getTranscript', $params, FALSE);
