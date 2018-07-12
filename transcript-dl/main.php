@@ -10,14 +10,11 @@ require_once $base_path . '/../includes.inc';
 
 /* Script constants */
 
-// Define a key for security
-define('KEY_VALUE', '7303081e-83d7-11e8-8ba0-f23c91e40cf2');
-
 // Get PDF transcript
 define('GET_PDF_TRANSCRIPT', TRUE);
 
 /* Download transcript from $_GET parameters */
-if (isset($_GET['person_id']) && is_numeric($_GET['person_id']) && isset($_GET['key']) && $_GET['key'] = KEY_VALUE){
+if (isset($_GET['person_id']) && is_numeric($_GET['person_id']) && isset($_GET['key']) && $_GET['key'] = GUID){
     // Establish Populi API connection
     $populi = new Populi();
     // Use default login credentials
