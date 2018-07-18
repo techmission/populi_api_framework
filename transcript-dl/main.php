@@ -61,11 +61,21 @@ if (isset($_GET['person_id']) && is_numeric($_GET['person_id']) && isset($_GET['
 	// If requested XML, render the XML using SimpleXML's asXML() method
 	// TODO: add Twig code to process XML into an OpenOffice spreadsheet
 	else {
-	  print $result->asXML();
+	  print xml_pretty_print($result);
 	}
 }
 // Log an error if missing parameters
 else {
 	script_log('Missing parameters needed to download transcript', LEVEL_ERROR);
 	exit(-1);
+}
+
+/* Function to pretty print SimpleXML - todo: add this to a class */
+/* https://stackoverflow.com/questions/798967 */
+function xml_pretty_print($simple_xml) {
+  $dom = new DOMDocument('1.0');
+  $dom->preserveWhiteSpace = false;
+  $dom->formatOutput = true;
+  $dom->loadXML($simple_xml->asXML());
+  return $dom->saveXML();
 }
