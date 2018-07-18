@@ -88,14 +88,14 @@ class Populi extends PopuliCore {
     }
   }
   
-  public function get_transcript($person_id, $pdf = TRUE, $official = TRUE) {
-    $params = get_defined_vars();
+  public function get_transcript($params) {
+	// Params are passed in as an array, since there are several ways to call
 	// Return error if no person id passed
-	if($person_id == NULL || !is_numeric($person_id)) {
+	if(!isset($params['person_id']) || $params['person_id'] == NULL || !is_numeric($params['person_id'])) {
 	  script_log('No valid person_id passed to get_transcript', LEVEL_ERROR);
 	}
 	try {
-	  if($pdf == TRUE) {
+	  if(isset($params['pdf']) && $params['pdf'] == TRUE) {
 		$return_raw = TRUE;
 	  }
 	  else {
@@ -106,7 +106,7 @@ class Populi extends PopuliCore {
     catch(PopuliException $ex) {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }
-	// Response will be XML if use_pdf is FALSE, otherwise binary PDF data with mime type set at top
+	// Response will be XML if pdf parameter is FALSE, otherwise binary PDF data with mime type set at top
 	// Must set the headers in PHP to render PDF properly
     return $response;
   }
