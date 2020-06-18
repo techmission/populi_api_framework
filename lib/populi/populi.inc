@@ -18,12 +18,20 @@ class PopuliCore {
     $params = 'username=' . urlencode($username) . '&password=' . urlencode($password);
     
     // Place the results into an XML string. Use cURL since file_get_contents is unreliable.
+    //ob_start();
+    //$out = fopen('php://output', 'w');
     $curl = curl_init();
+    //curl_setopt($curl, CURLOPT_VERBOSE, true);
+    //curl_setopt($curl, CURLOPT_STDERR, $out);
     curl_setopt($curl, CURLOPT_POST, 1);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_URL, $this->api_url);
     $response = curl_exec($curl);
+    //fclose($out);
+    //$debug = ob_get_clean();
+    //var_dump($debug);
+    //var_dump($response);
     curl_close($curl);
     
     if( $response !== false) {

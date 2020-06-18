@@ -110,4 +110,50 @@ class Populi extends PopuliCore {
 	// Must set the headers in PHP to render PDF properly
     return $response;
   }
- }
+
+  /* Wrapper around addTransferCredit */
+  public function addTransferCredit($organization_id, $person_id, $course_number, $course_name, $credits, $course_group_id) {
+    $params = get_defined_vars();
+    // Return error if values not defined properly
+    if(!is_numeric($organization_id) || !is_numeric($person_id) || empty($course_number) || empty($course_name) || !is_numeric($credits) || !is_numeric($course_group_id)) {
+       script_log('invalid parameters', LEVEL_ERROR);
+    }
+    try {
+      $response = $this->doTask('addTransferCredit', $params, FALSE);
+    }
+    catch(PopuliException $ex) {
+      script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
+    }
+    // Return ID of credit
+    if(isset($response->id)) {
+      return $response->id;
+    }
+    else {
+      return NULL;
+    }
+  }  
+
+  /* Wrapper around the addTransferCreditProgram API call */
+  public function addTransferCreditProgram($transfer_credit_id, $program_id, $grade) {
+    $params = get_defined_vars();  
+    // Return error if no tag_id or tag passed
+    if(!is_numeric($transfer_credit_id) || !is_numeric($program_id) || empty($grade)) {
+       script_log('invalid parameters', LEVEL_ERROR);
+    }
+    try {
+      $response = $this->doTask('addTransferCreditProgram', $params, FALSE);
+    }
+    catch(PopuliException $ex) {
+      script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
+    }
+    // Return TRUE or FALSE based on success
+    if((string) $response->result == 'SUCCESS') {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
+  }  
+
+}
+
