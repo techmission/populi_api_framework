@@ -114,6 +114,8 @@ class Populi extends PopuliCore {
   /* Wrapper around addTransferCredit */
   public function addTransferCredit($organization_id, $person_id, $course_number, $course_name, $credits, $course_group_id) {
     $params = get_defined_vars();
+    // transfer credits should only be applied to a specific program
+    $params['applies_to_all_programs'] = FALSE;
     // Return error if values not defined properly
     if(!is_numeric($organization_id) || !is_numeric($person_id) || empty($course_number) || empty($course_name) || !is_numeric($credits) || !is_numeric($course_group_id)) {
        script_log('invalid parameters', LEVEL_ERROR);
@@ -125,17 +127,19 @@ class Populi extends PopuliCore {
       script_log($ex->getMessage() . ' : ' . $ex->getPopuliCode, LEVEL_ERROR);
     }
     // Return ID of credit
-    if(isset($response->id)) {
-      return $response->id;
-    }
-    else {
-      return NULL;
-    }
-  }  
+    return (int) $response->id;  
+}  
 
   /* Wrapper around the addTransferCreditProgram API call */
   public function addTransferCreditProgram($transfer_credit_id, $program_id, $grade) {
-    $params = get_defined_vars();  
+    $params = get_defined_vars(); 
+    // define this as not a pass/fail grade if numeric, except for 80
+    if(is_numeric($grade) && $grade != 80) {
+      $params['pass_fail'] = FALSE;
+    }
+    else if($grade == 80) {
+      $params['pass_fail'] = TRUE;
+    }
     // Return error if no tag_id or tag passed
     if(!is_numeric($transfer_credit_id) || !is_numeric($program_id) || empty($grade)) {
        script_log('invalid parameters', LEVEL_ERROR);
@@ -155,5 +159,21 @@ class Populi extends PopuliCore {
     }
   }  
 
+
+  public function searchOrganizations($org_name) {
+    $result = $this->doTask('searchOrganizations', array('search_term' => $org_name));
+    //  return the id of the first org
+    $org_ids = array();
+    var_dump($result);
+    foreach($result->organization as $org) {
+      $org_ids[] = $org->id;
+    }
+    if(count($org_ids) > 0) {
+     return (int) $org_ids[0];
+    }
+    else {
+     return NULL;
+    }
+  }
 }
 

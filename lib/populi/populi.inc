@@ -102,6 +102,7 @@ class PopuliCore {
           return $xml;
         }
         else if( $xml->getName() == 'error' ){
+          var_dump($xml);
           throw new PopuliException((string)$xml->message, (string)$xml->code);
         }
         else{
