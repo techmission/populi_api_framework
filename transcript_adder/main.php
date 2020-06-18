@@ -12,7 +12,7 @@ require_once $base_path . '/../includes.inc';
 // Settings specific to this script
 require_once $base_path . '/transcript_adder/settings.inc';
 
-// Functions specific to tagging
+// Functions specific to adding transcripts - largely the hard-coded values that are needed by functions
 require_once $base_path . '/transcript_adder/transcript_info.inc';
 
 /* Main function to add the transfer credits */
